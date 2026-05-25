@@ -23,6 +23,7 @@ jobs:
           echo "Running OPA on insecure-s3..."
           opa eval --input terraform-examples/insecure-s3/main.tf --data policies --format pretty "data.nist" || true
 
-      - name: Evaluate secure example
+        - name: Evaluate secure example
         run: |
           echo "Running OPA on secure-s3..."
+          opa eval --input terraform-examples/secure-s3/main.tf --data policies --format pretty "data.nist"
