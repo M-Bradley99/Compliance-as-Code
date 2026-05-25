@@ -21,17 +21,17 @@ jobs:
       - name: Evaluate insecure example (expected to fail)
         run: |
           echo "Running OPA on insecure-s3..."
-          opa eval --input terraform-examples/insecure-s3/main.tf --data policies --format pretty "data.nist" || true
+          opa eval --rego-v1=false --input terraform-examples/insecure-s3/main.tf --data policies --format pretty "data.nist" || true
 
       - name: Evaluate secure example
         run: |
           echo "Running OPA on secure-s3..."
-          opa eval --input terraform-examples/secure-s3/main.tf --data policies --format pretty "data.nist"
+          opa eval --rego-v1=false --input terraform-examples/secure-s3/main.tf --data policies --format pretty "data.nist"
 
       - name: Generate compliance report
         run: |
           echo "Generating compliance report..."
-          opa eval --input terraform-examples/insecure-s3/main.tf --data policies --format json "data.nist" > compliance-report.json
+          opa eval --rego-v1=false --input terraform-examples/insecure-s3/main.tf --data policies --format json "data.nist" > compliance-report.json
 
       - name: Upload compliance report artifact
         uses: actions/upload-artifact@v4
