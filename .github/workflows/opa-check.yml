@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install OPA
         run: |
@@ -22,7 +22,7 @@ jobs:
         run: |
           echo "Running OPA on insecure-s3..."
           opa eval --input terraform-examples/insecure-s3/main.tf --data policies --format pretty "data.nist" || true
-          
+
       - name: Evaluate secure example
         run: |
           echo "Running OPA on secure-s3..."
@@ -34,7 +34,7 @@ jobs:
           opa eval --input terraform-examples/insecure-s3/main.tf --data policies --format json "data.nist" > compliance-report.json
 
       - name: Upload compliance report artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: compliance-report
           path: compliance-report.json
