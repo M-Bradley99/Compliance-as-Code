@@ -1,4 +1,28 @@
-- name: Evaluate insecure example (expected to fail)
+name: OPA Compliance Check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  opa:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install OPA
+        run: |
+          curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64
+          chmod +x opa
+          sudo mv opa /usr/local/bin/
+
+      - name: Evaluate insecure example (expected to fail)
         run: |
           echo "Running OPA on insecure-s3..."
           opa eval --input terraform-examples/insecure-s3/main.tf --data policies --format pretty "data.nist" || true
+
+      - name: Evaluate secure example
+        run: |
+          echo "Running OPA on secure-s3..."
