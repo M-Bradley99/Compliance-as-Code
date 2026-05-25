@@ -27,3 +27,13 @@ jobs:
         run: |
           echo "Running OPA on secure-s3..."
           opa eval --input terraform-examples/secure-s3/main.tf --data policies --format pretty "data.nist"
+           - name: Generate compliance report
+        run: |
+          echo "Generating compliance report..."
+          opa eval --input terraform-examples/insecure-s3/main.tf --data policies --format json "data.nist" > compliance-report.json
+
+      - name: Upload compliance report artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: compliance-report
+          path: compliance-report.json
